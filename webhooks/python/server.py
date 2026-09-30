@@ -13,7 +13,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv(Path(__file__).resolve().parents[2] / ".env")
+# The repo-root .env, when running from a clone. In Docker, variables come from the environment.
+load_dotenv(Path(__file__).resolve().parent.parent.parent / ".env")
 
 from flask import Flask, abort, jsonify, request  # noqa: E402
 

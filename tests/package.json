@@ -1,0 +1,15 @@
+{
+  "name": "teak-examples-tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "End-to-end tests that run against every Teak example.",
+  "license": "MIT",
+  "scripts": {
+    "test:checkout": "playwright test --project=checkout",
+    "test:webhooks": "playwright test --project=webhooks",
+    "mock": "node mock-teak/server.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0"
+  }
+}

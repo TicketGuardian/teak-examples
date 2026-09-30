@@ -1,0 +1,49 @@
+# Run any example with Docker. Each reads your keys from .env.
+#   docker compose up checkout-node      http://localhost:8080
+#   docker compose up checkout-python    http://localhost:8081
+#   docker compose up webhooks-node      http://localhost:8090/webhooks/teak
+#   docker compose up webhooks-python    http://localhost:8091/webhooks/teak
+x-example: &example
+  env_file:
+    - path: .env
+      required: false
+  environment:
+    PORT: "8080"
+  restart: unless-stopped
+
+services:
+  checkout-node:
+    <<: *example
+    build: { context: ./checkout, dockerfile: node/Dockerfile }
+    ports: ["8080:8080"]
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:8080/health').then(r => process.exit(r.ok ? 0 : 1), () => process.exit(1))"]
+      interval: 5s
+      retries: 10
+
+  checkout-python:
+    <<: *example
+    build: { context: ./checkout, dockerfile: python/Dockerfile }
+    ports: ["8081:8080"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 5s
+      retries: 10
+
+  webhooks-node:
+    <<: *example
+    build: ./webhooks/node
+    ports: ["8090:8080"]
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:8080/health').then(r => process.exit(r.ok ? 0 : 1), () => process.exit(1))"]
+      interval: 5s
+      retries: 10
+
+  webhooks-python:
+    <<: *example
+    build: ./webhooks/python
+    ports: ["8091:8080"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 5s
+      retries: 10

@@ -1,0 +1,66 @@
+# Builds every example's Docker image, runs it against the mock Teak API, and runs the shared
+# end-to-end tests against it. No secrets needed: see docker-compose.test.yml.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    name: ${{ matrix.example }} (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { example: checkout, language: node, port: 8080 }
+          - { example: checkout, language: python, port: 8081 }
+          - { example: webhooks, language: node, port: 8090 }
+          - { example: webhooks, language: python, port: 8091 }
+    env:
+      SERVICE: ${{ matrix.example }}-${{ matrix.language }}
+      COMPOSE: docker compose -f docker-compose.yml -f docker-compose.test.yml
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start ${{ env.SERVICE }} against the mock Teak API
+        run: $COMPOSE up --build --wait --detach "$SERVICE"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: tests/package-lock.json
+
+      - name: Install the tests
+        working-directory: tests
+        run: npm ci
+
+      - name: Install the browser
+        if: matrix.example == 'checkout'
+        working-directory: tests
+        run: npx playwright install --with-deps chromium
+
+      - name: Run the ${{ matrix.example }} tests
+        working-directory: tests
+        env:
+          BASE_URL: http://localhost:${{ matrix.port }}
+          TEAK_WEBHOOK_SECRET: so-secret
+        run: npx playwright test --project=${{ matrix.example }}
+
+      - name: Show the example's logs
+        if: failure()
+        run: $COMPOSE logs
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-${{ env.SERVICE }}
+          path: tests/test-results
+          retention-days: 7

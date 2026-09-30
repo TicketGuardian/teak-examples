@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout · Teak checkout example</title>
+  <link rel="stylesheet" href="/styles.css">
+
+  <!-- The TeakOS Widget loader. It defines teak() straight away and queues calls until teak.js loads.
+       https://docs.helloteak.com/docs/widget-installation -->
+  <script>
+    (function (w, d, c, n, s, p) {
+      w[n] = w[n] || function () { (w[n].q = w[n].q || []).push(arguments); };
+      w[n].l = +new Date();
+      s = d.createElement(c);
+      p = d.getElementsByTagName(c)[0];
+      s.async = true;
+      s.type = 'module';
+      s.src = 'https://icw.protecht.com/teak.js';
+      s.onerror = function () {
+        // The widget couldn't load. Checkout carries on without protection.
+      };
+      p.parentNode.insertBefore(s, p);
+    })(window, document, 'script', 'teak');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <span class="brand">Example Tickets</span>
+    <span class="badge">Sandbox</span>
+  </header>
+
+  <main class="checkout">
+    <section class="panel">
+      <h1>Your order</h1>
+      <p id="config-warning" class="warning" hidden>
+        Set <code>TEAK_PUBLIC_KEY</code> in <code>.env</code> to show the Teak widget.
+      </p>
+      <ul id="cart" class="cart" aria-label="Cart"></ul>
+
+      <h2>Your details</h2>
+      <form id="checkout-form" class="form">
+        <label>First name <input name="first_name" value="Ada" required></label>
+        <label>Last name <input name="last_name" value="Lovelace" required></label>
+        <label class="wide">Email <input name="email" type="email" value="ada@example.com" required></label>
+      </form>
+    </section>
+
+    <aside class="panel summary">
+      <h2>Summary</h2>
+      <dl class="totals">
+        <div><dt>Tickets</dt><dd id="subtotal">$0.00</dd></div>
+        <div id="protection-row" hidden><dt>Refund protection</dt><dd id="protection">$0.00</dd></div>
+        <div class="total"><dt>Total</dt><dd id="total">$0.00</dd></div>
+      </dl>
+
+      <!-- The widget renders the protection offer inside this element. -->
+      <teak-widget></teak-widget>
+
+      <button id="place-order" type="submit" form="checkout-form" class="button">Place order</button>
+      <p id="checkout-error" class="error" role="alert" hidden></p>
+    </aside>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

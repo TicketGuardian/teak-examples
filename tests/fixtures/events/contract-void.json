@@ -1,0 +1,50 @@
+{
+  "resource": "Policy",
+  "action": "Voided",
+  "data": {
+    "created": "2026-05-09T22:29:17.412Z",
+    "updated": "2026-05-12T15:02:44.108Z",
+    "issued": "2026-05-09T22:29:19.106Z",
+    "status": "voided",
+    "product": "Refund Protection",
+    "item_name": "Summer Fest - General Admission",
+    "reference_number": "ITEM-1",
+    "policy_number": "4f527d2e-0053-4b1c-82dd-db095f09e743",
+    "v2_policy_number": "ORAAS-A1B2C3D4E5",
+    "order_number": "ORD-1001",
+    "protecht_order_id": "3f1c9a2e-8b4d-4e6f-9a0b-1c2d3e4f5a6b",
+    "premium": "6.50",
+    "coverage": "100.00",
+    "currency": "USD",
+    "customer_name": "Ada Lovelace",
+    "customer": {
+      "id": "10136553-6c1e-4f0a-9d2b-aa23885cc83d",
+      "first_name": "Ada",
+      "last_name": "Lovelace",
+      "email": "ada@example.com",
+      "phone": "+15125550100",
+      "billing_address": {
+        "address1": "100 Congress Ave",
+        "address2": null,
+        "city": "Austin",
+        "state": "TX",
+        "country": "US",
+        "zip_code": "78701"
+      }
+    },
+    "client": {
+      "id": "4321436c-5b2a-4d8e-9f10-12d148947f99",
+      "name": "Example Tickets",
+      "display_name": "Example Tickets",
+      "slug": "example-tickets",
+      "logo": null,
+      "has_phone_support": false,
+      "can_void_order_level": false,
+      "policy_issued_email_text": null
+    },
+    "client_name": "Example Tickets",
+    "affiliate_name": "Example Platform",
+    "logo": null,
+    "policy_issued_email_text": null
+  }
+}

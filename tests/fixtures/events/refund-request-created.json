@@ -1,0 +1,41 @@
+{
+  "resource": "Claim",
+  "action": "Created",
+  "data": {
+    "claim_number": "clm_MxfAmFVj",
+    "status": "Initiated",
+    "filed": "2026-05-12T14:30:01.444Z",
+    "created": "2026-05-12T14:30:01.444Z",
+    "updated": "2026-05-12T14:30:59.560Z",
+    "validated": null,
+    "order_number": "3f1c9a2e-8b4d-4e6f-9a0b-1c2d3e4f5a6b",
+    "external_reference_id": "ORD-1001",
+    "customer": {
+      "name": "Ada Lovelace",
+      "first_name": "Ada",
+      "last_name": "Lovelace",
+      "email": "ada@example.com",
+      "phone": "+15125550100"
+    },
+    "policies": [
+      {
+        "policy_number": "4f527d2e-0053-4b1c-82dd-db095f09e743",
+        "v2_policy_number": "ORAAS-A1B2C3D4E5",
+        "item_name": "Summer Fest - General Admission",
+        "reference_number": "0069746d-8a1f-4c3e-b2d4-14c309739849",
+        "external_reference_id": "ITEM-1",
+        "issued_date": "2026-05-09T22:29:19.106Z",
+        "premium": "6.50",
+        "coverage": "100.00",
+        "payout": "100.00",
+        "payout_usd": "100.00",
+        "currency": "USD",
+        "client_id": "4321436c-5b2a-4d8e-9f10-12d148947f99"
+      }
+    ],
+    "client_id": "4321436c-5b2a-4d8e-9f10-12d148947f99",
+    "client_name": "Example Tickets",
+    "affiliate_name": "Example Platform",
+    "customer_name": "Example Platform"
+  }
+}

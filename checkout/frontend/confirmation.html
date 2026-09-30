@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Order confirmed · Teak checkout example</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <span class="brand">Example Tickets</span>
+    <span class="badge">Sandbox</span>
+  </header>
+
+  <main class="confirmation panel">
+    <h1>Thanks, your order is placed</h1>
+    <p>Order number <strong id="order-number"></strong></p>
+
+    <h2>Refund protection</h2>
+    <p id="protection-status" data-status="pending">Checking your protection…</p>
+    <ul id="protection-links" class="links" hidden></ul>
+
+    <p><a href="/">Back to checkout</a></p>
+  </main>
+
+  <script src="/confirmation.js"></script>
+</body>
+</html>

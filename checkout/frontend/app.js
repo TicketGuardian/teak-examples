@@ -16,13 +16,14 @@ function cartLines() {
     .filter((line) => line.quantity > 0);
 }
 
-// One Teak item per ticket: two tickets are two items, each with its own referenceNumber.
-// https://docs.helloteak.com/docs/widget-configuration#items
+// One Teak item per ticket: two tickets are two items, each with its own referenceNumber, and
+// its product type as your inventory labels it. https://docs.helloteak.com/docs/widget-configuration#items
 function teakItems() {
   return cartLines().flatMap((line) =>
     Array.from({ length: line.quantity }, (_, i) => ({
       name: line.name,
       referenceNumber: `${line.id}-${i + 1}`,
+      productTypes: [line.productType],
       cost: line.price,
       event: line.event,
     }))

@@ -1,6 +1,6 @@
 # Checkout example
 
-A ticket checkout with Teak refund protection: the [TeakOS Widget](https://docs.helloteak.com/docs/widget-installation) on the checkout page, and [Order Submit](https://docs.helloteak.com/docs/submit-the-order) from the server. It follows the [Widget + Order Submit guide](https://docs.helloteak.com/docs/widget-and-order-submit).
+A ticket checkout with Teak refund protection: the [TeakOS Widget](https://docs.helloteak.com/docs/widget-installation) on the checkout page, and [Order Submit](https://docs.helloteak.com/docs/submit-the-order) from the server. It follows the [TeakOS integration guide](https://docs.helloteak.com/docs/teakos-integration-guide).
 
 ```
 checkout/

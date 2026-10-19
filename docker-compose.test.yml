@@ -1,7 +1,7 @@
 # Runs the examples against the mock Teak API, with test keys, so tests need no real keys.
 #   docker compose -f docker-compose.yml -f docker-compose.test.yml up --build --wait checkout-node
 x-test-env: &test-env
-  TEAK_API_BASE: http://mock-teak:4010/api/v2
+  TEAK_API_BASE: http://mock-teak:4010/v1
   TEAK_PUBLIC_KEY: pk_test_mock
   TEAK_SECRET_KEY: sk_test_mock
   TEAK_WEBHOOK_SECRET: so-secret

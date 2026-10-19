@@ -11,7 +11,7 @@ const CUSTOMER = { first_name: 'Ada', last_name: 'Lovelace', email: 'ada@example
 
 async function openCheckout(page, sessionPrefix = 'sess-') {
   await page.addInitScript((prefix) => (window.__teakSessionPrefix = prefix), sessionPrefix);
-  await page.route('https://icw.protecht.com/teak.js', (route) =>
+  await page.route('https://icw.helloteak.com/teak.js', (route) =>
     route.fulfill({ contentType: 'text/javascript', body: FAKE_TEAK })
   );
   await page.goto('/');
@@ -135,7 +135,7 @@ test.describe('Browser', () => {
   });
 
   test('still takes the order when the widget script fails to load', async ({ page }) => {
-    await page.route('https://icw.protecht.com/teak.js', (route) => route.abort());
+    await page.route('https://icw.helloteak.com/teak.js', (route) => route.abort());
     await page.goto('/');
     await page.getByRole('button', { name: 'Place order' }).click();
     await expect(page.locator('#protection-status')).toHaveAttribute('data-status', 'not-offered', { timeout: 20_000 });

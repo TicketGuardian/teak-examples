@@ -1,7 +1,7 @@
 // The Teak Partner API calls this example makes: an access token, Submit an order,
 // and Retrieve order details. https://docs.helloteak.com/reference
 
-const TEAK_API = process.env.TEAK_API_BASE || 'https://api.sandbox.protecht.com/api/v2';
+const TEAK_API = process.env.TEAK_API_BASE || 'https://api.sandbox.helloteak.com/v1';
 
 // Tokens expire after 5 minutes, so get a new one for each call rather than caching it.
 async function getTeakToken() {

@@ -40,7 +40,7 @@ const server = http.createServer(async (req, res) => {
 
   if (req.method === 'GET' && url.pathname === '/health') return send(res, 200, { ok: true });
 
-  if (req.method === 'POST' && url.pathname === '/api/v2/auth/token') {
+  if (req.method === 'POST' && url.pathname === '/v1/auth/token') {
     const body = await readJson(req);
     if (!body?.public_key || !body?.secret_key) {
       return send(res, 400, { non_field_errors: ['Unable to log in with provided credentials.'] });
@@ -48,7 +48,7 @@ const server = http.createServer(async (req, res) => {
     return send(res, 200, { token: TOKEN });
   }
 
-  const submit = url.pathname.match(/^\/api\/v2\/orders\/([^/]+)\/submit$/);
+  const submit = url.pathname.match(/^\/v1\/orders\/([^/]+)\/submit$/);
   if (req.method === 'POST' && submit) {
     if (!authorized) return send(res, 401, envelope(401, 'User session has expired or is invalid.Please try again.'));
     const sessionId = decodeURIComponent(submit[1]);
@@ -67,7 +67,7 @@ const server = http.createServer(async (req, res) => {
     return send(res, 202, { session_id: sessionId, status: 'submitted' });
   }
 
-  const details = url.pathname.match(/^\/api\/v2\/orders\/([^/]+)\/details$/);
+  const details = url.pathname.match(/^\/v1\/orders\/([^/]+)\/details$/);
   if (req.method === 'GET' && details) {
     if (!authorized) return send(res, 401, envelope(401, 'User session has expired or is invalid.Please try again.'));
     const referenceId = decodeURIComponent(details[1]);
@@ -104,4 +104,4 @@ const server = http.createServer(async (req, res) => {
 });
 
 const port = Number(process.env.PORT) || 4010;
-server.listen(port, () => console.log(`Mock Teak API on http://localhost:${port}/api/v2`));
+server.listen(port, () => console.log(`Mock Teak API on http://localhost:${port}/v1`));

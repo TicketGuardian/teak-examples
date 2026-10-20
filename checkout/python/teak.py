@@ -6,7 +6,7 @@ from urllib.parse import quote
 
 import requests
 
-TEAK_API = os.environ.get("TEAK_API_BASE") or "https://api.sandbox.protecht.com/api/v2"
+TEAK_API = os.environ.get("TEAK_API_BASE") or "https://api.sandbox.helloteak.com/v1"
 
 
 def get_teak_token():

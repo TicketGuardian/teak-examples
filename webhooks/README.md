@@ -1,6 +1,6 @@
 # Webhooks example
 
-A webhook endpoint for Teak events. It follows [Receiving webhooks](https://docs.helloteak.com/docs/receiving-webhooks) and the [Handle Contract Void](https://docs.helloteak.com/recipes/handle-contract-void) recipe.
+A webhook endpoint for Teak events. It follows [Receiving webhooks](https://docs.helloteak.com/docs/receiving-webhooks) and the [Refund the customer when protection is voided](https://docs.helloteak.com/recipes/handle-contract-void) recipe.
 
 ```
 webhooks/

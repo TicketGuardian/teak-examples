@@ -14,8 +14,8 @@ const EVENT = {
   endDatetime: '2026-07-18T23:00:00-05:00',
 };
 const CATALOG = [
-  { id: 'ga', name: 'Summer Fest - General Admission', price: 120, event: EVENT },
-  { id: 'vip', name: 'Summer Fest - VIP', price: 280, event: EVENT },
+  { id: 'ga', name: 'Summer Fest - General Admission', productType: 'general-admission', price: 120, event: EVENT },
+  { id: 'vip', name: 'Summer Fest - VIP', productType: 'vip', price: 280, event: EVENT },
 ];
 
 // Orders are kept in memory. Use your database.

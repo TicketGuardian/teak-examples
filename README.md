@@ -4,7 +4,7 @@ Complete, runnable examples of a [Teak](https://docs.helloteak.com) integration,
 
 | Example | What it shows | Node.js | Python | Docs |
 |---|---|---|---|---|
-| [Checkout](checkout) | The TeakOS Widget on a checkout page, Order Submit from your server, and the customer's protection links | [`checkout/node`](checkout/node) | [`checkout/python`](checkout/python) | [Integration guide](https://docs.helloteak.com/docs/widget-and-order-submit), [Quickstart](https://docs.helloteak.com/recipes/quickstart) |
+| [Checkout](checkout) | The TeakOS Widget on a checkout page, Order Submit from your server, and the customer's protection links | [`checkout/node`](checkout/node) | [`checkout/python`](checkout/python) | [TeakOS integration guide](https://docs.helloteak.com/docs/teakos-integration-guide), [Quickstart](https://docs.helloteak.com/recipes/quickstart) |
 | [Webhooks](webhooks) | Verifying webhook signatures, recording issued contracts, and refunding voided ones | [`webhooks/node`](webhooks/node) | [`webhooks/python`](webhooks/python) | [Receiving webhooks](https://docs.helloteak.com/docs/receiving-webhooks) |
 
 ## Set up

@@ -54,13 +54,15 @@ def submit_teak_order(session_id, order):
         if res.status_code == 401:
             continue
 
-        # Most errors are HTTP 400 with the real code in error.code.
+        # Already submitted, e.g. by an earlier attempt: HTTP 409 with "status": "already_submitted".
+        if res.status_code == 409:
+            return "submitted"
+
+        # Most other errors are HTTP 400 with the specific code in error.code.
         try:
             error = res.json().get("error") or {}
         except ValueError:
             error = {}
-        if error.get("code") == 409:
-            return "submitted"  # already submitted, e.g. by an earlier attempt
         if error.get("code") == 503:
             continue
 

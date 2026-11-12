@@ -1,0 +1,19 @@
+{
+  "name": "teak-server-to-server-example-node",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Teak server-to-server example: Get programs and Confirm the order, with a Node.js backend.",
+  "license": "MIT",
+  "main": "server.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0"
+  }
+}

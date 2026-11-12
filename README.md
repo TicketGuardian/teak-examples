@@ -6,6 +6,7 @@ Complete, runnable examples of a [Teak](https://docs.helloteak.com) integration,
 |---|---|---|---|---|
 | [Checkout](checkout) | The TeakOS Widget on a checkout page, Order Submit from your server, and the customer's protection links | [`checkout/node`](checkout/node) | [`checkout/python`](checkout/python) | [TeakOS integration guide](https://docs.helloteak.com/docs/teakos-integration-guide), [Quickstart](https://docs.helloteak.com/recipes/quickstart) |
 | [Webhooks](webhooks) | Verifying webhook signatures, recording issued contracts, and refunding voided ones | [`webhooks/node`](webhooks/node) | [`webhooks/python`](webhooks/python) | [Receiving webhooks](https://docs.helloteak.com/docs/receiving-webhooks) |
+| [Server to server](server-to-server) | Protection prices from Get programs on search results and in checkout, shown in your own pages, and the order confirmed from your server | [`server-to-server/node`](server-to-server/node) | [`server-to-server/python`](server-to-server/python) | [Server-to-server guide](https://docs.helloteak.com/docs/server-to-server-guide) |
 
 ## Set up
 
@@ -21,10 +22,11 @@ Fill in `.env`. Every example reads it:
 
 | Variable | Used by | What it is |
 |---|---|---|
-| `TEAK_PUBLIC_KEY` | Checkout | Your public key (`pk_...`). The widget uses it in the browser. |
-| `TEAK_SECRET_KEY` | Checkout | Your secret key (`sk_...`). Only your server uses it, to get access tokens. |
+| `TEAK_PUBLIC_KEY` | Checkout, Server to server | Your public key (`pk_...`). The widget uses it in the browser, and your server sends it with the secret key to get access tokens. |
+| `TEAK_SECRET_KEY` | Checkout, Server to server | Your secret key (`sk_...`). Only your server uses it, to get access tokens. |
 | `TEAK_WEBHOOK_SECRET` | Webhooks | Your webhook subscription's secret, from the Teak Dashboard. |
-| `TEAK_API_BASE` | Both | The Teak Partner API. Defaults to sandbox. |
+| `TEAK_COVERAGE` | Server to server | `optional` or `embedded`, to match your account. Defaults to `optional`. |
+| `TEAK_API_BASE` | All | The Teak Partner API. Defaults to sandbox. |
 
 Never commit `.env`. It's in `.gitignore`.
 
@@ -37,6 +39,8 @@ docker compose up checkout-node      # http://localhost:8080
 docker compose up checkout-python    # http://localhost:8081
 docker compose up webhooks-node      # http://localhost:8090/webhooks/teak
 docker compose up webhooks-python    # http://localhost:8091/webhooks/teak
+docker compose up server-to-server-node      # http://localhost:8100
+docker compose up server-to-server-python    # http://localhost:8101
 ```
 
 ### Without Docker
@@ -60,7 +64,7 @@ pip install -r requirements.txt
 python server.py
 ```
 
-Use the same commands in `webhooks/node` and `webhooks/python`.
+Use the same commands in `webhooks/node`, `webhooks/python`, `server-to-server/node`, and `server-to-server/python`.
 
 ## Test
 
@@ -75,7 +79,7 @@ npx playwright install chromium
 BASE_URL=http://localhost:8080 npx playwright test --project=checkout
 ```
 
-For the webhooks tests, start `webhooks-node` or `webhooks-python` and run `--project=webhooks` against its port. CI runs every example this way on each pull request.
+For the other examples, start `webhooks-node` or `webhooks-python` and run `--project=webhooks`, or `server-to-server-node` or `server-to-server-python` and run `--project=server-to-server`, against its port. CI runs every example this way on each pull request.
 
 To send a signed test webhook to a running webhooks example:
 

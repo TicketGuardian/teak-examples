@@ -2,6 +2,7 @@
 // example's project:
 //   BASE_URL=http://localhost:8080 npx playwright test --project=checkout
 //   BASE_URL=http://localhost:8090 npx playwright test --project=webhooks
+//   BASE_URL=http://localhost:8100 npx playwright test --project=server-to-server
 const { defineConfig, devices } = require('@playwright/test');
 
 module.exports = defineConfig({
@@ -18,5 +19,6 @@ module.exports = defineConfig({
   projects: [
     { name: 'checkout', testMatch: 'checkout.spec.js', use: { ...devices['Desktop Chrome'] } },
     { name: 'webhooks', testMatch: 'webhooks.spec.js' },
+    { name: 'server-to-server', testMatch: 'server-to-server.spec.js', use: { ...devices['Desktop Chrome'] } },
   ],
 });

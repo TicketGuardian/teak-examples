@@ -1,4 +1,4 @@
-// The Teak Partner API calls this example makes: an access token, Get programs, and the
+// The Teak Partner API calls this example makes: an access token, the Programs API, and the
 // Confirm the order step. https://docs.helloteak.com/docs/server-to-server-guide
 
 const TEAK_API = process.env.TEAK_API_BASE || 'https://api.sandbox.helloteak.com/v1';
@@ -23,7 +23,7 @@ async function getTeakToken() {
   return cached.token;
 }
 
-// Get programs: a protection price for each item, on the purchase's session.
+// The Programs API: a protection price for each item, on the purchase's session.
 // Leave sessionId out on the first call, and Teak starts a session.
 // https://docs.helloteak.com/docs/server-offer
 async function getPrograms({ sessionId, location, items }) {
@@ -48,7 +48,7 @@ async function getPrograms({ sessionId, location, items }) {
     res = await send();
   }
   // One bad item fails the whole call, and the error names it.
-  if (!res.ok) throw new Error(`Teak Get programs failed: ${res.status} ${await res.text()}`);
+  if (!res.ok) throw new Error(`Teak Programs API call failed: ${res.status} ${await res.text()}`);
   return res.json();
 }
 
@@ -60,7 +60,7 @@ class ConfirmNotSetUpError extends Error {}
 // here. Everything else in this example stays the same.
 // https://docs.helloteak.com/docs/server-confirm-the-order
 //
-//   sessionId  the session from Get programs
+//   sessionId  the session from the Programs API
 //   choices    [{ referenceId, accepted }], one per optional item. Embedded protection is added by Teak.
 //   order      { number, customer: { first_name, last_name, email } }: the person booking
 //

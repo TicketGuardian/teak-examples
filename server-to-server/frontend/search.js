@@ -1,4 +1,4 @@
-// Search page: one Get programs call prices every result, and starts the purchase's Teak session.
+// Search page: one call to the Programs API prices every result, and starts the purchase's Teak session.
 // A result without a price is shown without protection: a failed or slow call never blocks the page.
 
 const state = { ...{ quantities: {}, location: 'US-TX' }, ...store.read() };

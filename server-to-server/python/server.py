@@ -1,4 +1,4 @@
-"""Server-to-server example, Python backend. Prices protection with Get programs, shows it in
+"""Server-to-server example, Python backend. Prices protection with the Programs API, shows it in
 the store's own pages, and confirms the order with Teak. There's no Teak widget.
 https://docs.helloteak.com/docs/server-to-server-guide"""
 import logging
@@ -36,7 +36,7 @@ EVENTS = [
     {"id": "jazz-night", "name": "Jazz Night - Balcony", "eventName": "Jazz Night", "venue": "New York, NY", "productType": "general-admission", "price": "85.00", "startsAt": "2026-08-07T20:00:00-04:00", "endsAt": "2026-08-07T23:00:00-04:00"},
 ]
 
-# A session lasts 2 hours after the last Get programs call, and 24 hours at most.
+# A session lasts 2 hours after the last call to the Programs API, and 24 hours at most.
 # An expired session can't be revived. https://docs.helloteak.com/docs/sessions
 SESSION_IDLE_SECONDS = 2 * 60 * 60
 SESSION_MAX_SECONDS = 24 * 60 * 60

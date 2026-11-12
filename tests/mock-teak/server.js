@@ -6,7 +6,7 @@
 //   dup-...      Submit finds the order already submitted, as if an earlier attempt's response was lost
 // Submitting a session twice returns HTTP 409 with "status": "already_submitted", as the real API does.
 // Order details return 404 for 1 second after Submit, while the order is "being created".
-// Get programs prices each item at 8% of its cost. These trigger its errors, as the real API does:
+// The Programs API prices each item at 8% of its cost. These trigger its errors, as the real API does:
 //   a product type of "unmapped"   422 for the whole call, naming the item
 //   a location region of "ZZ"      422, the location can't be resolved
 //   an unknown session_id          422
@@ -16,7 +16,7 @@ const crypto = require('crypto');
 const TOKEN = 'mock-access-token';
 const sessions = new Map(); // session ID -> { referenceId, email, submittedAt }
 const flakyAttempts = new Map();
-const programSessions = new Set(); // session IDs started by Get programs
+const programSessions = new Set(); // session IDs started by the Programs API
 
 function send(res, status, body) {
   res.writeHead(status, body === undefined ? {} : { 'Content-Type': 'application/json' });

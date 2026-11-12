@@ -1,6 +1,6 @@
 // Tests for the server-to-server example. The same tests run against every backend, with the mock
 // Teak API in place of the real one (see docker-compose.test.yml). The mock prices each item at 8%
-// of its cost, and a location region of "ZZ" makes Get programs fail.
+// of its cost, and a location region of "ZZ" makes the Programs API fail.
 // Confirm the order is set up with each partner's Teak integration contact, so the example ships
 // without it: these tests check that an order still completes, and reports that it isn't set up.
 const { test, expect } = require('@playwright/test');
@@ -43,7 +43,7 @@ test.describe('API', () => {
     }
   });
 
-  test('shows results without prices when Get programs fails', async ({ request }) => {
+  test('shows results without prices when the Programs API fails', async ({ request }) => {
     const { results } = await search(request, { location: { country: 'US', region: 'ZZ' } });
     expect(results).toHaveLength(3);
     expect(results.every((r) => r.protectionPrice === null)).toBe(true);

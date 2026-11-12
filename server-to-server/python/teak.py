@@ -1,4 +1,4 @@
-"""The Teak Partner API calls this example makes: an access token, Get programs, and the
+"""The Teak Partner API calls this example makes: an access token, the Programs API, and the
 Confirm the order step. https://docs.helloteak.com/docs/server-to-server-guide"""
 import os
 import time
@@ -30,7 +30,7 @@ def get_teak_token():
 
 
 def get_programs(session_id, location, items):
-    """Get programs: a protection price for each item, on the purchase's session.
+    """The Programs API: a protection price for each item, on the purchase's session.
 
     Leave session_id out on the first call, and Teak starts a session.
     https://docs.helloteak.com/docs/server-offer"""
@@ -57,7 +57,7 @@ def get_programs(session_id, location, items):
         res = send()
     # One bad item fails the whole call, and the error names it.
     if not res.ok:
-        raise RuntimeError(f"Teak Get programs failed: {res.status_code} {res.text}")
+        raise RuntimeError(f"Teak Programs API call failed: {res.status_code} {res.text}")
     return res.json()
 
 
@@ -72,7 +72,7 @@ def confirm_teak_order(session_id, choices, order):
     here. Everything else in this example stays the same.
     https://docs.helloteak.com/docs/server-confirm-the-order
 
-      session_id  the session from Get programs
+      session_id  the session from the Programs API
       choices     [{"referenceId", "accepted"}], one per optional item. Embedded protection is added by Teak.
       order       {"number", "customer": {first_name, last_name, email}}: the person booking
 

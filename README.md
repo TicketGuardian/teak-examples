@@ -6,7 +6,7 @@ Complete, runnable examples of a [Teak](https://docs.helloteak.com) integration,
 |---|---|---|---|---|
 | [Checkout](checkout) | The TeakOS Widget on a checkout page, Order Submit from your server, and the customer's protection links | [`checkout/node`](checkout/node) | [`checkout/python`](checkout/python) | [TeakOS integration guide](https://docs.helloteak.com/docs/teakos-integration-guide), [Quickstart](https://docs.helloteak.com/recipes/quickstart) |
 | [Webhooks](webhooks) | Verifying webhook signatures, recording issued contracts, and refunding voided ones | [`webhooks/node`](webhooks/node) | [`webhooks/python`](webhooks/python) | [Receiving webhooks](https://docs.helloteak.com/docs/receiving-webhooks) |
-| [Server to server](server-to-server) | Protection prices from Get programs on search results and in checkout, shown in your own pages, and the order confirmed from your server | [`server-to-server/node`](server-to-server/node) | [`server-to-server/python`](server-to-server/python) | [Server-to-server guide](https://docs.helloteak.com/docs/server-to-server-guide) |
+| [Server to server](server-to-server) | Protection prices from the Programs API on search results and in checkout, shown in your own pages, and the order confirmed from your server | [`server-to-server/node`](server-to-server/node) | [`server-to-server/python`](server-to-server/python) | [Server-to-server guide](https://docs.helloteak.com/docs/server-to-server-guide) |
 
 ## Set up
 

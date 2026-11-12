@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout · Teak server-to-server example</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <span class="brand">Example Tickets</span>
+    <span class="badge">Sandbox</span>
+  </header>
+
+  <main class="checkout">
+    <section class="panel">
+      <h1>Your order</h1>
+      <ul id="cart" class="cart" aria-label="Cart"></ul>
+
+      <h2>Your details</h2>
+      <form id="checkout-form" class="form">
+        <label>First name <input name="first_name" value="Ada" required></label>
+        <label>Last name <input name="last_name" value="Lovelace" required></label>
+        <label class="wide">Email <input name="email" type="email" value="ada@example.com" required></label>
+      </form>
+    </section>
+
+    <aside class="panel summary">
+      <h2>Summary</h2>
+      <dl class="totals">
+        <div><dt>Tickets</dt><dd id="subtotal">$0.00</dd></div>
+        <div id="protection-row" hidden><dt>Refund protection</dt><dd id="protection">$0.00</dd></div>
+        <div class="total"><dt>Total</dt><dd id="total">$0.00</dd></div>
+      </dl>
+
+      <!-- The protection offer, shown by the store itself: there's no Teak widget on this path.
+           Agree the product name, description, and terms link you show with your Teak integration contact.
+           https://docs.helloteak.com/docs/server-offer#4-show-the-offer -->
+      <div id="offer" class="offer" hidden>
+        <label id="offer-optional" class="offer-choice" hidden>
+          <input id="accept-protection" type="checkbox">
+          <span>
+            <strong>Add refund protection for <span id="offer-price"></span></strong>
+            <span class="offer-detail">Get your money back if you can't attend.</span>
+          </span>
+        </label>
+        <p id="offer-embedded" class="offer-choice" hidden>
+          <span>
+            <strong>Refund protection included</strong>
+            <span class="offer-detail">Your tickets include refund protection.</span>
+          </span>
+        </p>
+      </div>
+
+      <button id="place-order" type="submit" form="checkout-form" class="button" disabled>Place order</button>
+      <p id="checkout-error" class="error" role="alert" hidden></p>
+    </aside>
+  </main>
+
+  <script src="/store.js"></script>
+  <script src="/checkout.js"></script>
+</body>
+</html>

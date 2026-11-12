@@ -3,13 +3,20 @@
 // Special session IDs trigger other outcomes:
 //   optout-...   Submit returns 204, as when the customer didn't opt in
 //   flaky-...    Submit fails once with error.code 503, then succeeds
-// Submitting a session twice returns error.code 409, as the real API does.
+//   dup-...      Submit finds the order already submitted, as if an earlier attempt's response was lost
+// Submitting a session twice returns HTTP 409 with "status": "already_submitted", as the real API does.
 // Order details return 404 for 1 second after Submit, while the order is "being created".
+// The Programs API prices each item at 8% of its cost. These trigger its errors, as the real API does:
+//   a product type of "unmapped"   422 for the whole call, naming the item
+//   a location region of "ZZ"      422, the location can't be resolved
+//   an unknown session_id          422
 const http = require('http');
+const crypto = require('crypto');
 
 const TOKEN = 'mock-access-token';
 const sessions = new Map(); // session ID -> { referenceId, email, submittedAt }
 const flakyAttempts = new Map();
+const programSessions = new Set(); // session IDs started by the Programs API
 
 function send(res, status, body) {
   res.writeHead(status, body === undefined ? {} : { 'Content-Type': 'application/json' });
@@ -48,6 +55,41 @@ const server = http.createServer(async (req, res) => {
     return send(res, 200, { token: TOKEN });
   }
 
+  if (req.method === 'POST' && url.pathname === '/v1/programs') {
+    if (!authorized) return send(res, 401, envelope(401, 'User session has expired or is invalid.Please try again.'));
+    const body = await readJson(req);
+    const field = (loc, msg) => send(res, 422, [{ type: 'Validation Error', loc: ['body', 'data', ...loc], msg }]);
+    if (!body?.currency || !body?.locale) return field(['currency'], 'Field required');
+    if (!body.location || !(body.location.country || body.location.ip_address || body.location.phone_number)) {
+      return field(['location'], 'Value error, location needs at least one of country, ip_address, or phone_number');
+    }
+    if (!Array.isArray(body.items) || body.items.length === 0) return field(['items'], 'Field required');
+    for (const [i, item] of body.items.entries()) {
+      if (typeof item.cost !== 'string') return field(['items', i, 'cost'], 'Value error, cost must be a string. Numeric types (int, float) are not accepted.');
+      if (!item.name || !item.reference_id || !Array.isArray(item.product_types) || !item.event?.name) return field(['items', i], 'Field required');
+    }
+    if (body.location.region === 'ZZ') {
+      return send(res, 422, { msg: 'Could not resolve traveler location (country_region=unknown_region, ip_address=missing, phone_number=missing)', type: 'Validation Error' });
+    }
+    const unmapped = body.items.find((item) => item.product_types.includes('unmapped'));
+    if (unmapped) return send(res, 422, { msg: `Unknown product type for items: '${unmapped.reference_id}' (unmapped)`, type: 'Unprocessable Entity' });
+    if (body.session_id !== undefined && !programSessions.has(body.session_id)) {
+      return field(['session_id'], 'Value error, unknown session_id');
+    }
+
+    const sessionId = body.session_id ?? crypto.randomUUID();
+    programSessions.add(sessionId);
+    const priced = body.items.filter((item) => Number(item.cost) > 0); // items that cost 0 are left out
+    return send(res, 200, {
+      session_id: sessionId,
+      currency: body.currency,
+      items: priced.map((item) => {
+        const premium = (Math.round(Number(item.cost) * 8) / 100).toFixed(2);
+        return { reference_id: item.reference_id, cart_item_id: crypto.randomUUID(), estimated_premium: premium, estimated_premium_literal: `$${premium}` };
+      }),
+    });
+  }
+
   const submit = url.pathname.match(/^\/v1\/orders\/([^/]+)\/submit$/);
   if (req.method === 'POST' && submit) {
     if (!authorized) return send(res, 401, envelope(401, 'User session has expired or is invalid.Please try again.'));
@@ -60,7 +102,12 @@ const server = http.createServer(async (req, res) => {
       flakyAttempts.set(sessionId, 1);
       return send(res, 400, envelope(503, 'Temporarily unavailable.'));
     }
-    if (sessions.has(sessionId)) return send(res, 400, envelope(409, `Order for session ${sessionId} already exists`));
+    if (sessionId.startsWith('dup-')) {
+      // As if an earlier attempt went through but its response was lost.
+      sessions.set(sessionId, { referenceId: body.reference_id, email: body.customer.email, submittedAt: Date.now() });
+      return send(res, 409, { session_id: sessionId, status: 'already_submitted' });
+    }
+    if (sessions.has(sessionId)) return send(res, 409, { session_id: sessionId, status: 'already_submitted' });
     if (sessionId.startsWith('optout-')) return send(res, 204);
 
     sessions.set(sessionId, { referenceId: body.reference_id, email: body.customer.email, submittedAt: Date.now() });

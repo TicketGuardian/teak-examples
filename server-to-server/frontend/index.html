@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Events · Teak server-to-server example</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <span class="brand">Example Tickets</span>
+    <span class="badge">Sandbox</span>
+  </header>
+
+  <main class="page">
+    <div class="page-head">
+      <h1>Upcoming events</h1>
+      <!-- Teak only offers protection that's available where the customer is. In your store, take
+           this from the customer's billing address, or the country and region you already know. -->
+      <label class="location">Shopping from
+        <select id="location">
+          <option value="US-TX">Texas, US</option>
+          <option value="US-NY">New York, US</option>
+          <option value="US-CA">California, US</option>
+          <option value="CA-ON">Ontario, Canada</option>
+        </select>
+      </label>
+    </div>
+
+    <ul id="results" class="results" aria-label="Search results" aria-busy="true"></ul>
+
+    <div class="page-foot">
+      <button id="go-to-checkout" type="button" class="button button-inline" disabled>Go to checkout</button>
+    </div>
+  </main>
+
+  <script src="/store.js"></script>
+  <script src="/search.js"></script>
+</body>
+</html>

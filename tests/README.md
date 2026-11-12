@@ -6,6 +6,7 @@ One set of end-to-end tests per example, run against every backend with [Playwri
 |---|---|
 | [`specs/checkout.spec.js`](specs/checkout.spec.js) | The checkout API, and the checkout and confirmation pages in a browser |
 | [`specs/webhooks.spec.js`](specs/webhooks.spec.js) | Signature checks, contract and refund request events, and repeat deliveries |
+| [`specs/server-to-server.spec.js`](specs/server-to-server.spec.js) | The Programs API on the search and checkout pages, the protection offer, and placing the order |
 | [`mock-teak/`](mock-teak) | A mock of the Teak API calls the examples make, so the tests need no keys |
 | [`fixtures/fake-teak.js`](fixtures/fake-teak.js) | A stand-in for the widget, used by the browser tests |
 | [`fixtures/events/`](fixtures/events) | Webhook payloads, from the Teak API reference |
@@ -30,6 +31,8 @@ BASE_URL=http://localhost:8081 npx playwright test --project=checkout
 | `checkout-python` | 8081 | `checkout` |
 | `webhooks-node` | 8090 | `webhooks` |
 | `webhooks-python` | 8091 | `webhooks` |
+| `server-to-server-node` | 8100 | `server-to-server` |
+| `server-to-server-python` | 8101 | `server-to-server` |
 
 ## Adding a backend
 

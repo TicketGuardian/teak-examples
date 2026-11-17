@@ -23,6 +23,8 @@ jobs:
           - { example: checkout, language: python, port: 8081 }
           - { example: webhooks, language: node, port: 8090 }
           - { example: webhooks, language: python, port: 8091 }
+          - { example: server-to-server, language: node, port: 8100 }
+          - { example: server-to-server, language: python, port: 8101 }
     env:
       SERVICE: ${{ matrix.example }}-${{ matrix.language }}
       COMPOSE: docker compose -f docker-compose.yml -f docker-compose.test.yml
@@ -43,7 +45,7 @@ jobs:
         run: npm ci
 
       - name: Install the browser
-        if: matrix.example == 'checkout'
+        if: matrix.example != 'webhooks'
         working-directory: tests
         run: npx playwright install --with-deps chromium
 

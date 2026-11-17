@@ -68,6 +68,11 @@ test.describe('API', () => {
     expect(order.protection).toBe('submitted');
   });
 
+  test('treats an already-submitted order (HTTP 409) as submitted', async ({ request }) => {
+    const order = await settledOrder(request, await checkout(request, `dup-${Date.now()}`));
+    expect(order.protection).toBe('submitted');
+  });
+
   test('completes the order without protection when the widget never loaded', async ({ request }) => {
     const order = await settledOrder(request, await checkout(request, null));
     expect(order.protection).toBe('not-offered');

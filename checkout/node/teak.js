@@ -43,9 +43,11 @@ async function submitTeakOrder(sessionId, order) {
     if (res.status === 204) return 'opted-out';
     if (res.status === 401) continue;
 
-    // Most errors are HTTP 400 with the real code in error.code.
+    // Already submitted, e.g. by an earlier attempt: HTTP 409 with "status": "already_submitted".
+    if (res.status === 409) return 'submitted';
+
+    // Most other errors are HTTP 400 with the specific code in error.code.
     const error = (await res.json().catch(() => ({}))).error;
-    if (error?.code === 409) return 'submitted'; // already submitted, e.g. by an earlier attempt
     if (error?.code === 503) continue;
 
     throw new Error(`Teak submit failed: ${res.status} ${JSON.stringify(error)}`);

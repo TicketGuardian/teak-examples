@@ -25,3 +25,9 @@ services:
     environment: *test-env
   webhooks-python:
     environment: *test-env
+  server-to-server-node:
+    environment: *test-env
+    depends_on: { mock-teak: { condition: service_healthy } }
+  server-to-server-python:
+    environment: *test-env
+    depends_on: { mock-teak: { condition: service_healthy } }

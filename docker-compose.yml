@@ -3,6 +3,8 @@
 #   docker compose up checkout-python    http://localhost:8081
 #   docker compose up webhooks-node      http://localhost:8090/webhooks/teak
 #   docker compose up webhooks-python    http://localhost:8091/webhooks/teak
+#   docker compose up server-to-server-node      http://localhost:8100
+#   docker compose up server-to-server-python    http://localhost:8101
 x-example: &example
   env_file:
     - path: .env
@@ -43,6 +45,24 @@ services:
     <<: *example
     build: ./webhooks/python
     ports: ["8091:8080"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 5s
+      retries: 10
+
+  server-to-server-node:
+    <<: *example
+    build: { context: ./server-to-server, dockerfile: node/Dockerfile }
+    ports: ["8100:8080"]
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:8080/health').then(r => process.exit(r.ok ? 0 : 1), () => process.exit(1))"]
+      interval: 5s
+      retries: 10
+
+  server-to-server-python:
+    <<: *example
+    build: { context: ./server-to-server, dockerfile: python/Dockerfile }
+    ports: ["8101:8080"]
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
       interval: 5s

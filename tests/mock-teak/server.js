@@ -85,7 +85,7 @@ const server = http.createServer(async (req, res) => {
       currency: body.currency,
       items: priced.map((item) => {
         const premium = (Math.round(Number(item.cost) * 8) / 100).toFixed(2);
-        return { reference_id: item.reference_id, cart_item_id: crypto.randomUUID(), estimated_premium: premium, estimated_premium_literal: `$${premium}` };
+        return { reference_id: item.reference_id, premium, premium_literal: `$${premium}` };
       }),
     });
   }

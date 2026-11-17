@@ -106,7 +106,7 @@ app.post('/api/search', async (req, res) => {
     coverage: COVERAGE,
     results: EVENTS.map(({ id, name, venue, price, startsAt }) => ({
       id, name, venue, price, startsAt,
-      protectionPrice: prices?.get(id)?.estimated_premium ?? null,
+      protectionPrice: prices?.get(id)?.premium ?? null,
     })),
   });
 });
@@ -126,7 +126,7 @@ app.post('/api/cart', async (req, res) => {
     Array.from({ length: quantity }, (_, i) => toTeakItem(event, `${event.id}-${i + 1}`))
   );
   const prices = await priceItems(cart, location, teakItems);
-  const protectionCents = prices ? teakItems.reduce((sum, item) => sum + cents(prices.get(item.reference_id)?.estimated_premium ?? 0), 0) : 0;
+  const protectionCents = prices ? teakItems.reduce((sum, item) => sum + cents(prices.get(item.reference_id)?.premium ?? 0), 0) : 0;
 
   Object.assign(cart, {
     location,

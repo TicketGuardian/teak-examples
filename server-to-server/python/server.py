@@ -146,7 +146,7 @@ def search():
     results = [
         {
             **{k: event[k] for k in ("id", "name", "venue", "price", "startsAt")},
-            "protectionPrice": (prices or {}).get(event["id"], {}).get("estimated_premium"),
+            "protectionPrice": (prices or {}).get(event["id"], {}).get("premium"),
         }
         for event in EVENTS
     ]
@@ -173,7 +173,7 @@ def price_cart():
 
     teak_items = [to_teak_item(event, f"{event['id']}-{i + 1}") for event, quantity in lines for i in range(quantity)]
     prices = price_items(cart, location, teak_items)
-    protection = sum((Decimal(prices.get(item["reference_id"], {}).get("estimated_premium", "0")) for item in teak_items), Decimal(0)) if prices else Decimal(0)
+    protection = sum((Decimal(prices.get(item["reference_id"], {}).get("premium", "0")) for item in teak_items), Decimal(0)) if prices else Decimal(0)
 
     cart.update(
         location=location,
